@@ -2,7 +2,12 @@ package org.ufpr.sistemapedidos.app;
 
 import java.io.IOException;
 
+import org.ufpr.sistemapedidos.controller.ClienteController;
+import org.ufpr.sistemapedidos.model.Cliente;
+
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -14,6 +19,14 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 
+	private ObservableList<Cliente> clientes = FXCollections.observableArrayList();
+
+	public Main() {
+		clientes.add(new Cliente(1, "400000", "Caio", "Calo"));
+		clientes.add(new Cliente(2, "500000", "André", "Feijó"));
+		clientes.add(new Cliente(3, "600000", "Victor", "Vieira"));
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -21,17 +34,15 @@ public class Main extends Application {
 
 		initRootLayout();
 
-		showPersonOverview();
+		showClienteView();
 	}
 
 	public void initRootLayout() {
 		try {
-			// Carrega o root layout do arquivo fxml.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("../view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
-			// Mostra a scene (cena) contendo o root layout.
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -40,15 +51,16 @@ public class Main extends Application {
 		}
 	}
 
-	public void showPersonOverview() {
+	public void showClienteView() {
 		try {
-			// Carrega o person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/MainView.fxml"));
-			AnchorPane personOverview = (AnchorPane) loader.load();
+			loader.setLocation(Main.class.getResource("../view/ClienteView.fxml"));
+			AnchorPane mainView = (AnchorPane) loader.load();
 
-			// Define o person overview dentro do root layout.
-			rootLayout.setCenter(personOverview);
+			rootLayout.setCenter(mainView);
+			
+			ClienteController cc = loader.getController();
+			cc.setMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,5 +78,13 @@ public class Main extends Application {
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-	
+
+	public ObservableList<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(ObservableList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
 }
