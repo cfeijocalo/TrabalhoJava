@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ufpr.sistemapedidos.controller.ClienteController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ufpr.sistemapedidos.controller.ClienteViewController">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="571.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -31,8 +31,8 @@
                   <Label layoutX="86.0" layoutY="43.0" text="Nome: " />
                   <Label layoutX="57.0" layoutY="67.0" text="Sobrenome: " />
                   <Label layoutX="98.0" layoutY="91.0" text="CPF:  " />
-                  <Button layoutX="578.0" layoutY="103.0" mnemonicParsing="false" text="Novo..." />
-                  <Button layoutX="641.0" layoutY="103.0" mnemonicParsing="false" text="Editar..." />
+                  <Button layoutX="578.0" layoutY="103.0" mnemonicParsing="false" onAction="#novoCliente" text="Novo..." />
+                  <Button layoutX="641.0" layoutY="103.0" mnemonicParsing="false" onAction="#editaCliente" text="Editar..." />
                   <Button layoutX="706.0" layoutY="103.0" mnemonicParsing="false" onAction="#removeCliente" text="Remover" />
                   <Label layoutX="10.0" layoutY="10.0" text="Dados Cliente:" />
                   <Label fx:id="nomeLabel" layoutX="128.0" layoutY="43.0" text="Label" />

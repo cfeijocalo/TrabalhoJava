@@ -2,31 +2,30 @@ package org.ufpr.sistemapedidos.app;
 
 import java.io.IOException;
 
-import org.ufpr.sistemapedidos.controller.ClienteController;
+import org.ufpr.sistemapedidos.controller.ClienteDialogController;
+import org.ufpr.sistemapedidos.controller.ClienteViewController;
 import org.ufpr.sistemapedidos.model.Cliente;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Caio Calo
+ */
 public class Main extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 
-	private ObservableList<Cliente> clientes = FXCollections.observableArrayList();
-
 	public Main() {
-		clientes.add(new Cliente(1, "400000", "Caio", "Calo"));
-		clientes.add(new Cliente(2, "500000", "André", "Feijó"));
-		clientes.add(new Cliente(3, "600000", "Victor", "Vieira"));
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -58,11 +57,37 @@ public class Main extends Application {
 			AnchorPane mainView = (AnchorPane) loader.load();
 
 			rootLayout.setCenter(mainView);
-			
-			ClienteController cc = loader.getController();
-			cc.setMain(this);
+
+			ClienteViewController cvc = loader.getController();
+			cvc.setMain(this);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public boolean showClienteDialog(Cliente cliente) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/ClienteDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Cliente");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			ClienteDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setCliente(cliente);
+
+			dialogStage.showAndWait();
+
+			return controller.isConfirm();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -77,14 +102,6 @@ public class Main extends Application {
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-	}
-
-	public ObservableList<Cliente> getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(ObservableList<Cliente> clientes) {
-		this.clientes = clientes;
 	}
 
 }

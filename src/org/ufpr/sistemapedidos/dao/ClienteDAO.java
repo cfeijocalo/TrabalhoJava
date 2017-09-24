@@ -96,7 +96,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 			stmt.setString(2, entity.getNome());
 			stmt.setString(3, entity.getSobreNome());
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 					
@@ -123,7 +123,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 			stmt.setString(2, entity.getNome());
 			stmt.setString(3, entity.getSobreNome());
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 				
@@ -146,7 +146,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 				

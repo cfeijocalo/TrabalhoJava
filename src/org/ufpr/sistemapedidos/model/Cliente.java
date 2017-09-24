@@ -13,7 +13,7 @@ public class Cliente {
 	private final StringProperty sobreNome;
 	
 	public Cliente() {
-		this(null, null, null, null);
+		this(0, null, null, null);
 	}
 
 	public Cliente(Integer id, String cpf, String nome, String sobreNome) {
