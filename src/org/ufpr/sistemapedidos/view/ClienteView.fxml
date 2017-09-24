@@ -33,7 +33,7 @@
                   <Label layoutX="98.0" layoutY="91.0" text="CPF:  " />
                   <Button layoutX="578.0" layoutY="103.0" mnemonicParsing="false" text="Novo..." />
                   <Button layoutX="641.0" layoutY="103.0" mnemonicParsing="false" text="Editar..." />
-                  <Button layoutX="706.0" layoutY="103.0" mnemonicParsing="false" text="Remover" />
+                  <Button layoutX="706.0" layoutY="103.0" mnemonicParsing="false" onAction="#removeCliente" text="Remover" />
                   <Label layoutX="10.0" layoutY="10.0" text="Dados Cliente:" />
                   <Label fx:id="nomeLabel" layoutX="128.0" layoutY="43.0" text="Label" />
                   <Label fx:id="sobreNomeLabel" layoutX="128.0" layoutY="67.0" text="Label" />

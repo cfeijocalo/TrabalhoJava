@@ -4,6 +4,9 @@ import org.ufpr.sistemapedidos.app.Main;
 import org.ufpr.sistemapedidos.model.Cliente;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -64,8 +67,7 @@ public class ClienteController {
 		this.main = main;
 		clienteTable.setItems(main.getClientes());
 	}
-	
-	@SuppressWarnings("unused")
+
 	private void showClienteDados(Cliente cliente) {
 		if (cliente != null) {
 			nomeLabel.setText(cliente.getNome());
@@ -77,5 +79,32 @@ public class ClienteController {
 			cpfLabel.setText("");
 		}
 	}
+	
+	@FXML
+	private void removeCliente() {
+		int selectedIndex = clienteTable.getSelectionModel().getSelectedIndex();
+		
+		if (selectedIndex >= 0) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmar remoção");
+			alert.setHeaderText("Deseja remover o cliente: ");
+			alert.setContentText(clienteTable.getItems().get(selectedIndex).getNome() + " " + clienteTable.getItems().get(selectedIndex).getSobreNome());
+			
+			if (alert.showAndWait().get().getButtonData() == ButtonData.OK_DONE) {
+				System.out.println("Aeeee");
+				clienteTable.getItems().remove(selectedIndex);			
+			}
+			
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Nenhuma seleção");
+			alert.setHeaderText("Nenhum cliente foi selecionado");
+			alert.setContentText("Por favor, selecione um cliente na tabela.");
+			
+			alert.showAndWait();
+		}
+	}
+	
+	
 	
 }
