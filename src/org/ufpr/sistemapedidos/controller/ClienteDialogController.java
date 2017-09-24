@@ -1,8 +1,13 @@
 package org.ufpr.sistemapedidos.controller;
 
+import java.sql.SQLException;
+
+import org.ufpr.sistemapedidos.dao.ClienteDAO;
 import org.ufpr.sistemapedidos.model.Cliente;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -24,6 +29,8 @@ public class ClienteDialogController {
 	private Stage dialogStage;
 	private Cliente cliente;
 	private boolean confirm = false;
+	
+	private int invalidType;
 
 	@FXML
 	private void initialize() {
@@ -36,8 +43,48 @@ public class ClienteDialogController {
 			this.cliente.setNome(nomeField.getText());
 			this.cliente.setSobreNome(sobreNomeField.getText());
 			confirm = true;
+			dialogStage.close();
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			switch (invalidType) {
+				case 1:
+					nomeField.requestFocus();
+					alert.setTitle("Campo vazio");
+					alert.setHeaderText("Campo nome vazio.");
+					alert.setContentText("Por favor, preencha o campo com o nome do cliente.");
+					alert.showAndWait();
+					break;
+				case 2:
+					sobreNomeField.requestFocus();
+					alert.setTitle("Campo vazio");
+					alert.setHeaderText("Campo sobrenome vazio.");
+					alert.setContentText("Por favor, preencha o campo com o sobrenome do cliente.");
+					alert.showAndWait();
+					break;
+				case 3:
+					alert.setTitle("Tamanho máximo");
+					alert.setHeaderText("Nome ou sobrenome muito grande.");
+					alert.setContentText("Máximo de caracteres permitidos Nome(30) Sobrenome(50)");
+					alert.showAndWait();
+					break;
+				case 4:
+					cpfField.requestFocus();
+					alert.setTitle("Campo vazio");
+					alert.setHeaderText("Campo CPF vazio.");
+					alert.setContentText("Por favor, preencha o campo com o CPF do cliente.");
+					alert.showAndWait();
+					break;
+				case 5:
+					cpfField.requestFocus();
+					alert.setTitle("CPF");
+					alert.setHeaderText("CPF já cadastrado.");
+					alert.setContentText("Existe um cliente com o CPF " + cpfField.getText() + " cadastrado.");
+					alert.showAndWait();
+					break;
+				default:
+					break;
+			}
 		}
-		dialogStage.close();
 	}
 
 	@FXML
@@ -46,6 +93,28 @@ public class ClienteDialogController {
 	}
 
 	private boolean isValid() {
+		ClienteDAO cDao = new ClienteDAO();
+		if (nomeField.getText() == null || nomeField.getText().isEmpty()) {
+			this.invalidType = 1;
+			return false;
+		} else if (sobreNomeField.getText() == null ||sobreNomeField.getText().isEmpty()) {
+			this.invalidType = 2;
+			return false;
+		} else if (nomeField.getText().length() > 30 || sobreNomeField.getText().length() > 50) {
+			this.invalidType = 3;
+			return false;
+		} else if (cpfField.getText() == null || cpfField.getText().isEmpty()) {
+			this.invalidType = 4;
+			return false;
+		} else
+			try {
+				if (!cDao.selectAll("WHERE cpf = '" + cpfField.getText() + "';").isEmpty()) {
+					this.invalidType = 5;
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		return true;
 	}
 
