@@ -46,9 +46,9 @@ public class ClienteViewController {
 
 	@FXML
 	private Label cpfLabel;
-	
+
 	private ObservableList<Cliente> clientes = FXCollections.observableArrayList();
-	
+
 	private Main main;
 
 	public ClienteViewController() {
@@ -105,13 +105,13 @@ public class ClienteViewController {
 			buscaClientes();
 		}
 	}
-	
+
 	@FXML
 	private void editaCliente() {
 		Cliente auxCliente = clienteTable.getSelectionModel().getSelectedItem();
-		
+
 		if (auxCliente != null) {
-			
+
 			if (main.showClienteDialog(auxCliente)) {
 				ClienteDAO cDao = new ClienteDAO();
 				try {
@@ -121,7 +121,7 @@ public class ClienteViewController {
 				}
 				buscaClientes();
 			}
-			
+
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Nenhuma seleção");
@@ -130,9 +130,9 @@ public class ClienteViewController {
 
 			alert.showAndWait();
 		}
-		
+
 	}
-	
+
 	@FXML
 	private void removeCliente() {
 		Cliente cliente = clienteTable.getSelectionModel().getSelectedItem();
@@ -163,15 +163,15 @@ public class ClienteViewController {
 			alert.showAndWait();
 		}
 	}
-	
+
 	private void buscaClientes() {
 		ClienteDAO cDao = new ClienteDAO();
 		this.clientes.clear();
 		List<Cliente> clientes;
 		try {
 			clientes = cDao.selectAll("");
-			if (!clientes.isEmpty()) {				
-				for(Cliente c : clientes) {			
+			if (!clientes.isEmpty()) {
+				for (Cliente c : clientes) {
 					this.clientes.add(c);
 				}
 			}

@@ -4,7 +4,11 @@ import java.io.IOException;
 
 import org.ufpr.sistemapedidos.controller.ClienteDialogController;
 import org.ufpr.sistemapedidos.controller.ClienteViewController;
+import org.ufpr.sistemapedidos.controller.ProdutoDialogController;
+import org.ufpr.sistemapedidos.controller.ProdutoViewController;
+import org.ufpr.sistemapedidos.controller.RootLayoutController;
 import org.ufpr.sistemapedidos.model.Cliente;
+import org.ufpr.sistemapedidos.model.Produto;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +37,7 @@ public class Main extends Application {
 
 		initRootLayout();
 
-		showClienteView();
+		showProdutoView();
 	}
 
 	public void initRootLayout() {
@@ -44,19 +48,24 @@ public class Main extends Application {
 
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
+			
+			RootLayoutController controller = loader.getController();
+	        controller.setMain(this);
+
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	// CLIENTE
 	public void showClienteView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("../view/ClienteView.fxml"));
-			AnchorPane mainView = (AnchorPane) loader.load();
+			AnchorPane clienteView = (AnchorPane) loader.load();
 
-			rootLayout.setCenter(mainView);
+			rootLayout.setCenter(clienteView);
 
 			ClienteViewController cvc = loader.getController();
 			cvc.setMain(this);
@@ -91,6 +100,49 @@ public class Main extends Application {
 		}
 	}
 
+	// PRODUTO
+	public void showProdutoView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/ProdutoView.fxml"));
+			AnchorPane produtoView = (AnchorPane) loader.load();
+			
+			rootLayout.setCenter(produtoView);
+			
+			ProdutoViewController pvc = loader.getController();
+			pvc.setMain(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean showProdutoDialog(Produto produto) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/ProdutoDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Produto");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			
+			ProdutoDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setProduto(produto);
+			
+			dialogStage.showAndWait();
+			
+			return controller.isConfirm();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

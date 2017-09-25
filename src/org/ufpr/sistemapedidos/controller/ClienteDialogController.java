@@ -29,7 +29,7 @@ public class ClienteDialogController {
 	private Stage dialogStage;
 	private Cliente cliente;
 	private boolean confirm = false;
-	
+
 	private int invalidType;
 
 	@FXML
@@ -97,7 +97,7 @@ public class ClienteDialogController {
 		if (nomeField.getText() == null || nomeField.getText().isEmpty()) {
 			this.invalidType = 1;
 			return false;
-		} else if (sobreNomeField.getText() == null ||sobreNomeField.getText().isEmpty()) {
+		} else if (sobreNomeField.getText() == null || sobreNomeField.getText().isEmpty()) {
 			this.invalidType = 2;
 			return false;
 		} else if (nomeField.getText().length() > 30 || sobreNomeField.getText().length() > 50) {
@@ -127,6 +127,14 @@ public class ClienteDialogController {
 		this.dialogStage = dialogStage;
 	}
 
+	public boolean isConfirm() {
+		return confirm;
+	}
+
+	public void setConfirm(boolean confirm) {
+		this.confirm = confirm;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -140,14 +148,6 @@ public class ClienteDialogController {
 			this.cpfField.setText(cliente.getCpf());
 		}
 
-	}
-
-	public boolean isConfirm() {
-		return confirm;
-	}
-
-	public void setConfirm(boolean confirm) {
-		this.confirm = confirm;
 	}
 
 }
