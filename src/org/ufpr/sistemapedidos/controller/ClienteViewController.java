@@ -143,6 +143,7 @@ public class ClienteViewController {
 			alert.setHeaderText("Deseja remover o cliente: ");
 			alert.setContentText(cliente.getNome() + " " + cliente.getSobreNome());
 
+			//TODO tratar cliente com pedido.
 			if (alert.showAndWait().get().getButtonData() == ButtonData.OK_DONE) {
 				ClienteDAO cDao = new ClienteDAO();
 				try {

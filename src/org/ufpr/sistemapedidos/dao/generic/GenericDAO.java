@@ -17,17 +17,17 @@ public interface GenericDAO<T> {
 	 * @author Caio Calo
 	 * @param id
 	 * @return entity
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	T selectById(Long id) throws SQLException;
 
 	/**
-	 * Busca todos que atendem a condição.
+	 * Busca todos que atendem a condiÃ§Ã£o.
 	 * 
 	 * @author Caio Calo
 	 * @param condition
 	 * @return entity
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	List<T> selectAll(String condition) throws SQLException;
 
@@ -37,8 +37,8 @@ public interface GenericDAO<T> {
 	 * @author Caio Calo
 	 * @param entity
 	 * @return <b>true</b> - se inserido com sucesso.<br>
-	 *         <b>false</b> - se houve algum problema na inserção.
-	 * @throws SQLException 
+	 *         <b>false</b> - se houve algum problema na inserÃ§Ã£o.
+	 * @throws SQLException
 	 */
 	boolean insert(T entity) throws SQLException;
 
@@ -48,8 +48,8 @@ public interface GenericDAO<T> {
 	 * @author Caio Calo
 	 * @param entity
 	 * @return <b>true</b> - se atualizado com sucesso.<br>
-	 *         <b>false</b> - se houve algum problema na atualização.
-	 * @throws SQLException 
+	 *         <b>false</b> - se houve algum problema na atualizaÃ§Ã£o.
+	 * @throws SQLException
 	 */
 	boolean update(T entity) throws SQLException;
 
@@ -59,8 +59,8 @@ public interface GenericDAO<T> {
 	 * @author Caio Calo
 	 * @param entity
 	 * @return <b>true</b> - se removido com sucesso.<br>
-	 *         <b>false</b> - se houve algum problema na remoção.
-	 * @throws SQLException 
+	 *         <b>false</b> - se houve algum problema na remoÃ§Ã£o.
+	 * @throws SQLException
 	 */
 	boolean delete(T entity) throws SQLException;
 

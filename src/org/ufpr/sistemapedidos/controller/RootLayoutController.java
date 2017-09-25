@@ -3,7 +3,6 @@ package org.ufpr.sistemapedidos.controller;
 import org.ufpr.sistemapedidos.app.Main;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
 
 public class RootLayoutController {
 

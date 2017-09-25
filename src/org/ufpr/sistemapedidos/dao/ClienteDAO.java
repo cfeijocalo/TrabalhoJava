@@ -140,7 +140,7 @@ public class ClienteDAO implements GenericDAO<Cliente> {
 	@Override
 	public boolean delete(Cliente entity) throws SQLException {
 		boolean result = false;
-		String query = "DELETE FROM public.cliente WHERE id = " + entity.getId() + ";";
+		String query = "DELETE FROM cliente WHERE id = " + entity.getId() + ";";
 		
 		try {
 			conn = ConnectionFactory.create();

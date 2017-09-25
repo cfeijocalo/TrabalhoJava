@@ -15,7 +15,8 @@ public class ConnectionFactory {
 
 	public static Connection create() throws SQLException, IOException {
 
-		InputStream file = Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/dados.properties");
+		InputStream file = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("resources/dados.properties");
 		Properties properties = new Properties();
 		properties.load(file);
 

@@ -34,6 +34,13 @@ public class ClienteDialogController {
 
 	@FXML
 	private void initialize() {
+		nomeField.textProperty().addListener((ov, oldValue, newValue) -> {
+		     nomeField.setText(newValue.toUpperCase());
+		});
+		
+		sobreNomeField.textProperty().addListener((ov, oldValue, newValue) -> {
+		     sobreNomeField.setText(newValue.toUpperCase());
+		});
 	}
 
 	@FXML

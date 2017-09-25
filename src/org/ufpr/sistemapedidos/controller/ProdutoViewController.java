@@ -10,6 +10,9 @@ import org.ufpr.sistemapedidos.model.Produto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -84,12 +87,59 @@ public class ProdutoViewController {
 
 	@FXML
 	private void editaProduto() {
+		Produto auxProduto = produtoTable.getSelectionModel().getSelectedItem();
+		
+		if (auxProduto != null) {
 
+			if (main.showProdutoDialog(auxProduto)) {
+				ProdutoDAO pDao = new ProdutoDAO();
+				try {
+					pDao.update(auxProduto);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				buscaProdutos();
+			}
+
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Nenhuma seleção");
+			alert.setHeaderText("Nenhum produto foi selecionado");
+			alert.setContentText("Por favor, selecione um produto na tabela.");
+
+			alert.showAndWait();
+		}
 	}
 
 	@FXML
 	private void removeProduto() {
+		Produto auxProduto = produtoTable.getSelectionModel().getSelectedItem();
+		
+		if (auxProduto != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmar remoção");
+			alert.setHeaderText("Deseja remover o produto: ");
+			alert.setContentText(auxProduto.getDescricao());
+			
+			if (alert.showAndWait().get().getButtonData() == ButtonData.OK_DONE) {
+				ProdutoDAO pDao = new ProdutoDAO();
+				try {
+					if (pDao.delete(auxProduto)) {
+						buscaProdutos();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Nenhuma seleção");
+			alert.setHeaderText("Nenhum produto foi selecionado");
+			alert.setContentText("Por favor, selecione um produto na tabela.");
+
+			alert.showAndWait();
+		}
 	}
 
 	private void buscaProdutos() {

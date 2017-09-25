@@ -90,7 +90,7 @@ public class ProdutoDAO implements GenericDAO<Produto> {
 			
 			stmt.setString(1, entity.getDescricao());
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 				
@@ -115,7 +115,7 @@ public class ProdutoDAO implements GenericDAO<Produto> {
 			
 			stmt.setString(1, entity.getDescricao());
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 				
@@ -138,7 +138,7 @@ public class ProdutoDAO implements GenericDAO<Produto> {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 				
