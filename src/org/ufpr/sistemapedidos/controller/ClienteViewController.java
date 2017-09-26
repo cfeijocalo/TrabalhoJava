@@ -67,10 +67,10 @@ public class ClienteViewController {
 		sobreNomeColumn.setCellValueFactory(cellData -> cellData.getValue().sobreNomeProperty());
 		cpfColumn.setCellValueFactory(cellData -> cellData.getValue().cpfProperty());
 
-		showClienteDados(null);
+		showClientesDados(null);
 
 		clienteTable.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> showClienteDados(newValue));
+				.addListener((observable, oldValue, newValue) -> showClientesDados(newValue));
 
 	}
 
@@ -80,7 +80,7 @@ public class ClienteViewController {
 		clienteTable.setItems(clientes);
 	}
 
-	private void showClienteDados(Cliente cliente) {
+	private void showClientesDados(Cliente cliente) {
 		if (cliente != null) {
 			nomeLabel.setText(cliente.getNome());
 			sobreNomeLabel.setText(cliente.getSobreNome());

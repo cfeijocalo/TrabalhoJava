@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ufpr.sistemapedidos.controller.ClienteDialogController;
 import org.ufpr.sistemapedidos.controller.ClienteViewController;
+import org.ufpr.sistemapedidos.controller.PedidoViewController;
 import org.ufpr.sistemapedidos.controller.ProdutoDialogController;
 import org.ufpr.sistemapedidos.controller.ProdutoViewController;
 import org.ufpr.sistemapedidos.controller.RootLayoutController;
@@ -37,7 +38,7 @@ public class Main extends Application {
 
 		initRootLayout();
 
-		showProdutoView();
+		showClienteView();
 	}
 
 	public void initRootLayout() {
@@ -141,6 +142,22 @@ public class Main extends Application {
 			return false;
 		}
 		
+	}
+	
+	// PEDIDO
+	public void showPedidoView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/ProdutoView.fxml"));
+			AnchorPane pedidoView = (AnchorPane) loader.load();
+			
+			rootLayout.setCenter(pedidoView);
+			
+			PedidoViewController pvc = loader.getController();
+			pvc.setMain(this);			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {

@@ -13,20 +13,20 @@ import javafx.stage.Stage;
  * @author Caio Calo
  */
 public class ProdutoDialogController {
-	
+
 	@FXML
 	private TextField descricaoField;
-	
+
 	private Stage dialogStage;
 	private Produto produto;
 	private boolean confirm = false;
-	
+
 	private int invalidType;
-	
+
 	@FXML
 	private void initialize() {
 		descricaoField.textProperty().addListener((ov, oldValue, newValue) -> {
-		     descricaoField.setText(newValue.toUpperCase());
+			descricaoField.setText(newValue.toUpperCase());
 		});
 	}
 
@@ -50,7 +50,7 @@ public class ProdutoDialogController {
 					descricaoField.requestFocus();
 					alert.setTitle("Tamanho máximo");
 					alert.setHeaderText("Descrição muito grande.");
-					alert.setContentText("Máximo de caracteres permitidos Descrição()");
+					alert.setContentText("Máximo de caracteres permitidos Descrição(45)");
 					alert.showAndWait();
 					break;
 				default:
@@ -91,13 +91,18 @@ public class ProdutoDialogController {
 	public void setConfirm(boolean confirm) {
 		this.confirm = confirm;
 	}
-	
+
 	public Produto getProduto() {
 		return produto;
 	}
-	
+
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+		
+		if (produto != null) {
+			this.descricaoField.setText(produto.getDescricao());
+		}
+		
 	}
 
 }
