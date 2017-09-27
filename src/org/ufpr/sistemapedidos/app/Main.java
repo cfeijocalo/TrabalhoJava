@@ -4,11 +4,13 @@ import java.io.IOException;
 
 import org.ufpr.sistemapedidos.controller.ClienteDialogController;
 import org.ufpr.sistemapedidos.controller.ClienteViewController;
+import org.ufpr.sistemapedidos.controller.PedidoDialogController;
 import org.ufpr.sistemapedidos.controller.PedidoViewController;
 import org.ufpr.sistemapedidos.controller.ProdutoDialogController;
 import org.ufpr.sistemapedidos.controller.ProdutoViewController;
 import org.ufpr.sistemapedidos.controller.RootLayoutController;
 import org.ufpr.sistemapedidos.model.Cliente;
+import org.ufpr.sistemapedidos.model.Pedido;
 import org.ufpr.sistemapedidos.model.Produto;
 
 import javafx.application.Application;
@@ -158,6 +160,33 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean showPedidoDialog(Pedido pedido) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/PedidoDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Pedido");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			
+			PedidoDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setPedido(pedido);;
+			
+			dialogStage.showAndWait();
+			
+			return controller.isConfirm();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 	public static void main(String[] args) {

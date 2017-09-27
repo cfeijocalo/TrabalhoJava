@@ -4,6 +4,10 @@ import org.ufpr.sistemapedidos.app.Main;
 
 import javafx.fxml.FXML;
 
+/**
+ * 
+ * @author Caio Calo
+ */
 public class RootLayoutController {
 
 	private Main main;
