@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ufpr.sistemapedidos.dao.generic.GenericDAO;
+import org.ufpr.sistemapedidos.model.ItemDoPedido;
 import org.ufpr.sistemapedidos.model.Pedido;
 import org.ufpr.sistemapedidos.util.ConnectionFactory;
 
@@ -91,7 +92,7 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	@Override
 	public boolean insert(Pedido entity) throws SQLException {
 		boolean result = false;
-		String query = "INSERT INTO public.pedido(data, id_cliente) VALUES (?, ?);";
+		String query = "INSERT INTO public.pedido(data, id_cliente) VALUES (?, ?) returning id;";
 
 		try {
 			conn = ConnectionFactory.create();
@@ -99,8 +100,14 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
 			stmt.setDate(1, new Date(System.currentTimeMillis()));
 			stmt.setInt(2, entity.getCliente().getId());
-
-			if (stmt.executeUpdate() > 0) {
+			
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				ItemDoPedidoDAO idpDao = new ItemDoPedidoDAO();
+				for (ItemDoPedido i : entity.getItens()) {
+					idpDao.insert(rs.getInt("id"), i);
+				}
 				result = true;
 			}
 
@@ -126,6 +133,11 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 			stmt.setDate(1, Date.valueOf(entity.getData()));
 			stmt.setInt(2, entity.getCliente().getId());
 
+			ItemDoPedidoDAO idpDao = new ItemDoPedidoDAO();
+			idpDao.delete(entity.getId());
+			for (ItemDoPedido i : entity.getItens()) {
+				idpDao.insert(entity.getId(), i);
+			}
 			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}

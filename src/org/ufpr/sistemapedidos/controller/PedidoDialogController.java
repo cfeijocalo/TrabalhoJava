@@ -64,13 +64,16 @@ public class PedidoDialogController {
 	private boolean confirm;
 
 	private int invalidType;
+	
+	private Callback<ListView<Cliente>, ListCell<Cliente>> clienteCell;
+	private Callback<ListView<Produto>, ListCell<Produto>> produtoCell;
 
 	@FXML
 	private void initialize() {
 		quantidadeColumn.setCellValueFactory(cellData -> cellData.getValue().quantidadeProperty().asString());
 		produtoColumn.setCellValueFactory(cellData -> cellData.getValue().getProduto().descricaoProperty());
 
-		Callback<ListView<Cliente>, ListCell<Cliente>> clienteCell = new Callback<ListView<Cliente>, ListCell<Cliente>>() {
+		clienteCell = new Callback<ListView<Cliente>, ListCell<Cliente>>() {
 			@Override
 			public ListCell<Cliente> call(ListView<Cliente> p) {
 				return new ListCell<Cliente>() {
@@ -87,7 +90,7 @@ public class PedidoDialogController {
 			}
 		};
 
-		Callback<ListView<Produto>, ListCell<Produto>> produtoCell = new Callback<ListView<Produto>, ListCell<Produto>>() {
+		produtoCell = new Callback<ListView<Produto>, ListCell<Produto>>() {
 			@Override
 			public ListCell<Produto> call(ListView<Produto> p) {
 				return new ListCell<Produto>() {
@@ -104,7 +107,7 @@ public class PedidoDialogController {
 			}
 		};
 
-		showClientesDados(null);
+		showClienteDados(null);
 		
 		clienteComboBox.setCellFactory(clienteCell);
 
@@ -114,18 +117,24 @@ public class PedidoDialogController {
 		produtoComboBox.setButtonCell(produtoCell.call(null));
 		
 		clienteComboBox.getSelectionModel().selectedItemProperty()
-			.addListener((observable, oldValue, newValue) -> showClientesDados(newValue));
+			.addListener((observable, oldValue, newValue) -> showClienteDados(newValue));
+		
+		itensTable.getSelectionModel().selectedItemProperty()
+			.addListener((observable, oldValue, newValue) -> showProdutoDados(newValue));
 
 	}
 
 	@FXML
 	private void handleOk() {
 		if (isValid()) {
+			this.pedido.setCliente(clienteComboBox.getSelectionModel().getSelectedItem());
+			this.pedido.setItens(itensTable.getItems());
+			confirm = true;
 			dialogStage.close();
 		} else {
 			switch (invalidType) {
 			case 1:
-
+				
 				break;
 			default:
 				break;
@@ -140,23 +149,37 @@ public class PedidoDialogController {
 
 	@FXML
 	private void handleAdicionar() {
-
+		ItemDoPedido item = new ItemDoPedido(
+				(int) Integer.parseInt(quantidadeField.getText()), 
+				produtoComboBox.getSelectionModel().getSelectedItem());
+		
+		itens.add(item);
+		
+		this.itensTable.setItems(itens);
 	}
 
 	@FXML
 	private void handleRemover() {
-
+		itens.remove(this.itensTable.getSelectionModel().getSelectedItem());
+		this.itensTable.setItems(itens);
 	}
 
 	private boolean isValid() {
 		return true;
 	}
 	
-	private void showClientesDados(Cliente cliente) {
+	private void showClienteDados(Cliente cliente) {
 		if (cliente != null) {
 			cpfLabel.setText(cliente.getCpf());
 		} else {
 			cpfLabel.setText("");
+		}
+	}
+	
+	private void showProdutoDados(ItemDoPedido item) {
+		if (item != null) {
+			produtoComboBox.getSelectionModel().select(item.getProduto());
+			quantidadeField.setText(item.getQuantidade() + "");
 		}
 	}
 
@@ -220,6 +243,20 @@ public class PedidoDialogController {
 		buscaProdutos();
 		this.produtoComboBox.setItems(produtos);
 		if (pedido != null) {
+			if (pedido.getCliente() != null) {
+				dataLabel.setText(pedido.getCliente().getNome() 
+						+ " " + pedido.getCliente().getSobreNome());
+				cpfLabel.setText(pedido.getCliente().getCpf());
+				this.clienteComboBox.getSelectionModel().select(pedido.getCliente());
+			}
+			if (pedido.getItens() != null) {
+				if (!pedido.getItens().isEmpty()) {
+					for (ItemDoPedido i : pedido.getItens()) {
+						itens.add(i);
+					}
+					this.itensTable.setItems(itens);
+				}
+			}
 			if (pedido.getData() != null) {
 				dataLabel.setText(Utilidades.converteLocalDateToString(pedido.getData()));
 			} else {

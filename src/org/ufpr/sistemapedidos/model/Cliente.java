@@ -80,4 +80,47 @@ public class Cliente {
 		return new SimpleStringProperty(getNome() + " " + getSobreNome());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((sobreNome == null) ? 0 : sobreNome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.get().equals(other.cpf.get()))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!(id.get() == other.id.get()))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.get().equals(other.nome.get()))
+			return false;
+		if (sobreNome == null) {
+			if (other.sobreNome != null)
+				return false;
+		} else if (!sobreNome.get().equals(other.sobreNome.get()))
+			return false;
+		return true;
+	}
+
 }

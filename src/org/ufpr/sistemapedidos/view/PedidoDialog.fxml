@@ -9,8 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="org.ufpr.sistemapedidos.controller.PedidoDialogController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ufpr.sistemapedidos.controller.PedidoDialogController">
    <children>
       <SplitPane orientation="VERTICAL" prefHeight="500.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -34,8 +33,8 @@
                   <Label layoutX="57.0" layoutY="137.0" text="Quantidade:" />
                   <Button layoutX="375.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleAdicionar" prefHeight="25.0" prefWidth="80.0" text="Adicionar" />
                   <Button layoutX="462.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleRemover" prefHeight="25.0" prefWidth="80.0" text="Remover" />
-                  <Button fx:id="handleOk" layoutX="409.0" layoutY="459.0" mnemonicParsing="false" prefWidth="60.0" text="OK" />
-                  <Button fx:id="handleCancel" layoutX="484.0" layoutY="459.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Cancela" />
+                  <Button layoutX="409.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="60.0" text="OK" />
+                  <Button layoutX="484.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="25.0" prefWidth="60.0" text="Cancela" />
                </children>
             </AnchorPane>
         </items>
