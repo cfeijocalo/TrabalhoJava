@@ -1,20 +1,24 @@
 package org.ufpr.sistemapedidos.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Pedido {
 
-	private int id;
-	private Date data;
+	private IntegerProperty id;
+	private LocalDate data;
 	private Cliente cliente;
 	private List<ItemDoPedido> itens;
 
 	public Pedido() {
+		this(0, null, null, null);
 	}
 
-	public Pedido(int id, Date data, Cliente cliente, List<ItemDoPedido> itens) {
-		this.id = id;
+	public Pedido(int id, LocalDate data, Cliente cliente, List<ItemDoPedido> itens) {
+		this.id = new SimpleIntegerProperty(id);
 		this.data = data;
 		this.cliente = cliente;
 		this.itens = itens;
@@ -22,18 +26,22 @@ public class Pedido {
 
 	// GETTERS AND SETTERS
 	public int getId() {
-		return id;
+		return id.get();
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id.set(id);
+	}
+	
+	public IntegerProperty idProperty() {
+		return id;
 	}
 
-	public Date getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 

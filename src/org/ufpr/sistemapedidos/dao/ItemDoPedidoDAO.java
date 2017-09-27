@@ -112,7 +112,7 @@ public class ItemDoPedidoDAO implements GenericDAO<ItemDoPedido> {
 			stmt.setInt(2, entity.getProduto().getId());
 			stmt.setInt(3, entity.getQuantidade());
 			
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 
@@ -153,7 +153,7 @@ public class ItemDoPedidoDAO implements GenericDAO<ItemDoPedido> {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
 
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 
@@ -193,7 +193,7 @@ public class ItemDoPedidoDAO implements GenericDAO<ItemDoPedido> {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
 
-			if (stmt.execute()) {
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
 

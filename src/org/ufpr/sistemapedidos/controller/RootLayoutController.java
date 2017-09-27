@@ -15,7 +15,7 @@ public class RootLayoutController {
 	
 	@FXML
 	private void telaPedido() {
-		
+		this.main.showPedidoView();
 	}
 	
 	@FXML

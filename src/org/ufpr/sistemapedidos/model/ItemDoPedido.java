@@ -1,25 +1,33 @@
 package org.ufpr.sistemapedidos.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class ItemDoPedido {
 
-	private int quantidade;
+	private IntegerProperty quantidade;
 	private Produto produto;
 
 	public ItemDoPedido() {
+		this(0, null);
 	}
 
 	public ItemDoPedido(int quantidade, Produto produto) {
-		this.quantidade = quantidade;
+		this.quantidade = new SimpleIntegerProperty(quantidade);
 		this.produto = produto;
 	}
 
 	// GETTERS AND SETTERS
 	public int getQuantidade() {
-		return quantidade;
+		return quantidade.get();
 	}
 
 	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+		this.quantidade.set(quantidade);
+	}
+	
+	public IntegerProperty quantidadeProperty() {
+		return quantidade;
 	}
 
 	public Produto getProduto() {

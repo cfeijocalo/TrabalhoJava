@@ -22,7 +22,7 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	private Connection conn;
 	private PreparedStatement stmt;
 	private ResultSet rs;
-	
+
 	@Override
 	public Pedido selectById(Long id) throws SQLException {
 		Pedido pedido = null;
@@ -37,7 +37,7 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 			ItemDoPedidoDAO idpDao = new ItemDoPedidoDAO();
 			if (rs.next()) {
 				pedido = new Pedido(rs.getInt("id"), 
-						rs.getDate("date"), 
+						rs.getDate("data").toLocalDate(),
 						cDao.selectById(rs.getLong("id_cliente")), 
 						idpDao.selectAll("WHERE id_pedido = " + id + ";"));
 			}
@@ -57,7 +57,7 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	public List<Pedido> selectAll(String condition) throws SQLException {
 		List<Pedido> pedidos = new ArrayList<Pedido>();
 		String query = "SELECT * FROM pedido ";
-		
+
 		if (condition != null && !condition.isEmpty()) {
 			query = query.concat(condition);
 		}
@@ -71,8 +71,8 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 			ItemDoPedidoDAO idpDao = new ItemDoPedidoDAO();
 			while (rs.next()) {
 				Pedido pedido = new Pedido(rs.getInt("id"), 
-						rs.getDate("date"), 
-						cDao.selectById(rs.getLong("id_cliente")), 
+						rs.getDate("data").toLocalDate(),
+						cDao.selectById(rs.getLong("id_cliente")),
 						idpDao.selectAll("WHERE id_pedido = " + rs.getInt("id")));
 				pedidos.add(pedido);
 			}
@@ -92,18 +92,18 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	public boolean insert(Pedido entity) throws SQLException {
 		boolean result = false;
 		String query = "INSERT INTO public.pedido(data, id_cliente) VALUES (?, ?);";
-		
+
 		try {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
-			
+
 			stmt.setDate(1, new Date(System.currentTimeMillis()));
 			stmt.setInt(2, entity.getCliente().getId());
-			
-			if (stmt.execute()) {
+
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
-				
+
 		} catch (IOException | SQLException e) {
 			e.printStackTrace();
 			conn.rollback();
@@ -118,18 +118,18 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	public boolean update(Pedido entity) throws SQLException {
 		boolean result = false;
 		String query = "UPDATE public.pedido SET data=?, id_cliente=? WHERE id = " + entity.getId() + ";";
-		
+
 		try {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
-			
-			stmt.setDate(1, (java.sql.Date) entity.getData());
+
+			stmt.setDate(1, Date.valueOf(entity.getData()));
 			stmt.setInt(2, entity.getCliente().getId());
-			
-			if (stmt.execute()) {
+
+			if (stmt.executeUpdate() > 0) {
 				result = true;
 			}
-				
+
 		} catch (IOException | SQLException e) {
 			e.printStackTrace();
 			conn.rollback();
@@ -144,18 +144,18 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 	public boolean delete(Pedido entity) throws SQLException {
 		boolean result = false;
 		String query = "DELETE FROM public.pedido WHERE id = " + entity.getId() + ";";
-		
+
 		try {
 			conn = ConnectionFactory.create();
 			stmt = conn.prepareStatement(query);
-			
+
 			ItemDoPedidoDAO idpDao = new ItemDoPedidoDAO();
-			if (idpDao.delete(entity.getId())) { 
-				if (stmt.execute()) {
+			if (idpDao.delete(entity.getId())) {
+				if (stmt.executeUpdate() > 0) {
 					result = true;
 				}
 			}
-				
+
 		} catch (IOException | SQLException e) {
 			e.printStackTrace();
 			conn.rollback();
@@ -165,5 +165,5 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 		}
 		return result;
 	}
-	
+
 }

@@ -75,5 +75,9 @@ public class Cliente {
 	public StringProperty sobreNomeProperty() {
 		return sobreNome;
 	}
+	
+	public StringProperty nomeCompletoProperty() {
+		return new SimpleStringProperty(getNome() + " " + getSobreNome());
+	}
 
 }

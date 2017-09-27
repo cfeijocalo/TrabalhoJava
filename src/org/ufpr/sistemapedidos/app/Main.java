@@ -148,7 +148,7 @@ public class Main extends Application {
 	public void showPedidoView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/ProdutoView.fxml"));
+			loader.setLocation(Main.class.getResource("../view/PedidoView.fxml"));
 			AnchorPane pedidoView = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(pedidoView);

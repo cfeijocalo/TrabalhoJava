@@ -62,7 +62,7 @@ public class ProdutoDAO implements GenericDAO<Produto> {
 			stmt = conn.prepareStatement(query);
 			rs = stmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Produto produto = new Produto(rs.getInt("id"), 
 						rs.getString("descricao"));
 				produtos.add(produto);
