@@ -1,6 +1,7 @@
 package org.ufpr.sistemapedidos.controller;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.ufpr.sistemapedidos.dao.ClienteDAO;
@@ -9,6 +10,7 @@ import org.ufpr.sistemapedidos.model.Cliente;
 import org.ufpr.sistemapedidos.model.ItemDoPedido;
 import org.ufpr.sistemapedidos.model.Pedido;
 import org.ufpr.sistemapedidos.model.Produto;
+import org.ufpr.sistemapedidos.util.Utilidades;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -102,12 +104,18 @@ public class PedidoDialogController {
 			}
 		};
 
+		showClientesDados(null);
+		
 		clienteComboBox.setCellFactory(clienteCell);
 
 		produtoComboBox.setCellFactory(produtoCell);
 
 		clienteComboBox.setButtonCell(clienteCell.call(null));
 		produtoComboBox.setButtonCell(produtoCell.call(null));
+		
+		clienteComboBox.getSelectionModel().selectedItemProperty()
+			.addListener((observable, oldValue, newValue) -> showClientesDados(newValue));
+
 	}
 
 	@FXML
@@ -142,6 +150,14 @@ public class PedidoDialogController {
 
 	private boolean isValid() {
 		return true;
+	}
+	
+	private void showClientesDados(Cliente cliente) {
+		if (cliente != null) {
+			cpfLabel.setText(cliente.getCpf());
+		} else {
+			cpfLabel.setText("");
+		}
 	}
 
 	private void buscaClientes() {
@@ -203,6 +219,15 @@ public class PedidoDialogController {
 		this.clienteComboBox.setItems(clientes);
 		buscaProdutos();
 		this.produtoComboBox.setItems(produtos);
+		if (pedido != null) {
+			if (pedido.getData() != null) {
+				dataLabel.setText(Utilidades.converteLocalDateToString(pedido.getData()));
+			} else {
+				dataLabel.setText(Utilidades.converteLocalDateToString(LocalDate.now()));
+			}
+		} else {
+			dataLabel.setText(Utilidades.converteLocalDateToString(LocalDate.now()));
+		}
 	}
 
 }
