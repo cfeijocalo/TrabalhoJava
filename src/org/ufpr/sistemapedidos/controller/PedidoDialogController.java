@@ -175,7 +175,12 @@ public class PedidoDialogController {
 				(int) Integer.parseInt(quantidadeField.getText()), 
 				produtoComboBox.getSelectionModel().getSelectedItem());
 		
-		itens.add(item);
+		if (itens.contains(item)) {
+			itens.remove(item);
+			itens.add(item);
+		} else {
+			itens.add(item);
+		}
 		
 		this.itensTable.setItems(itens);
 	}
