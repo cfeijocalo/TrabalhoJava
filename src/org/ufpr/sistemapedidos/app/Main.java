@@ -46,7 +46,7 @@ public class Main extends Application {
 	public void initRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/RootLayout.fxml"));
+			loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
 			Scene scene = new Scene(rootLayout);
@@ -65,7 +65,7 @@ public class Main extends Application {
 	public void showClienteView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/ClienteView.fxml"));
+			loader.setLocation(Main.class.getResource("view/ClienteView.fxml"));
 			AnchorPane clienteView = (AnchorPane) loader.load();
 
 			rootLayout.setCenter(clienteView);
@@ -80,7 +80,7 @@ public class Main extends Application {
 	public boolean showClienteDialog(Cliente cliente) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/ClienteDialog.fxml"));
+			loader.setLocation(Main.class.getResource("view/ClienteDialog.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 
 			Stage dialogStage = new Stage();
@@ -107,7 +107,7 @@ public class Main extends Application {
 	public void showProdutoView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/ProdutoView.fxml"));
+			loader.setLocation(Main.class.getResource("view/ProdutoView.fxml"));
 			AnchorPane produtoView = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(produtoView);
@@ -122,7 +122,7 @@ public class Main extends Application {
 	public boolean showProdutoDialog(Produto produto) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/ProdutoDialog.fxml"));
+			loader.setLocation(Main.class.getResource("view/ProdutoDialog.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 			
 			Stage dialogStage = new Stage();
@@ -150,7 +150,7 @@ public class Main extends Application {
 	public void showPedidoView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/PedidoView.fxml"));
+			loader.setLocation(Main.class.getResource("view/PedidoView.fxml"));
 			AnchorPane pedidoView = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(pedidoView);
@@ -165,7 +165,7 @@ public class Main extends Application {
 	public boolean showPedidoDialog(Pedido pedido) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/PedidoDialog.fxml"));
+			loader.setLocation(Main.class.getResource("view/PedidoDialog.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 			
 			Stage dialogStage = new Stage();
