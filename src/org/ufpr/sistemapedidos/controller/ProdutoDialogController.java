@@ -100,7 +100,9 @@ public class ProdutoDialogController {
 		this.produto = produto;
 		
 		if (produto != null) {
-			this.descricaoField.setText(produto.getDescricao());
+			if (produto.getDescricao() != null) {
+				this.descricaoField.setText(produto.getDescricao());
+			}
 		}
 		
 	}

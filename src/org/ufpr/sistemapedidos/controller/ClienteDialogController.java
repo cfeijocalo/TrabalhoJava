@@ -125,9 +125,11 @@ public class ClienteDialogController {
 			return false;
 		} else
 			try {
-				if (!cDao.selectAll("WHERE cpf = '" + cpfField.getText() + "';").isEmpty()) {
-					this.invalidType = 5;
-					return false;
+				if (!cpfField.isDisable()) {
+					if (!cDao.selectAll("WHERE cpf = '" + cpfField.getText() + "';").isEmpty()) {
+						this.invalidType = 5;
+						return false;
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -160,9 +162,16 @@ public class ClienteDialogController {
 		this.cliente = cliente;
 
 		if (cliente != null) {
-			this.nomeField.setText(cliente.getNome());
-			this.sobreNomeField.setText(cliente.getSobreNome());
-			this.cpfField.setText(cliente.getCpf());
+			if (cliente.getNome() != null) {
+				this.nomeField.setText(cliente.getNome());
+			}
+			if (cliente.getSobreNome() != null) {
+				this.sobreNomeField.setText(cliente.getSobreNome());
+			}
+			if (cliente.getCpf() != null) {
+				this.cpfField.setText(cliente.getCpf());
+				this.cpfField.setDisable(true);
+			}
 		}
 
 	}
