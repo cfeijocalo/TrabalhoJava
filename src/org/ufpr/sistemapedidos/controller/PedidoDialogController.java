@@ -182,6 +182,12 @@ public class PedidoDialogController {
 			itens.add(item);
 		}
 		
+		if (produtoComboBox.isDisable()) {
+			produtoComboBox.setDisable(false);
+		}
+		
+		produtoComboBox.getItems().remove(item.getProduto());
+			
 		this.itensTable.setItems(itens);
 	}
 
@@ -213,6 +219,7 @@ public class PedidoDialogController {
 	private void showProdutoDados(ItemDoPedido item) {
 		if (item != null) {
 			produtoComboBox.getSelectionModel().select(item.getProduto());
+			produtoComboBox.setDisable(true);
 			quantidadeField.setText(item.getQuantidade() + "");
 		}
 	}
@@ -273,9 +280,7 @@ public class PedidoDialogController {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 		buscaClientes();
-		this.clienteComboBox.setItems(clientes);
 		buscaProdutos();
-		this.produtoComboBox.setItems(produtos);
 		if (pedido != null) {
 			if (pedido.getCliente() != null) {
 				dataLabel.setText(pedido.getCliente().getNome() 
@@ -287,6 +292,7 @@ public class PedidoDialogController {
 				if (!pedido.getItens().isEmpty()) {
 					for (ItemDoPedido i : pedido.getItens()) {
 						itens.add(i);
+						produtos.remove(i.getProduto());
 					}
 					this.itensTable.setItems(itens);
 				}
@@ -299,6 +305,9 @@ public class PedidoDialogController {
 		} else {
 			dataLabel.setText(Utilidades.converteLocalDateToString(LocalDate.now()));
 		}
+		
+		this.clienteComboBox.setItems(clientes);
+		this.produtoComboBox.setItems(produtos);
 	}
 
 }
