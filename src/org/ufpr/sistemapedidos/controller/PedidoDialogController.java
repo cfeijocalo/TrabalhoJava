@@ -12,9 +12,12 @@ import org.ufpr.sistemapedidos.model.Pedido;
 import org.ufpr.sistemapedidos.model.Produto;
 import org.ufpr.sistemapedidos.util.Utilidades;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -22,6 +25,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -106,7 +110,15 @@ public class PedidoDialogController {
 				};
 			}
 		};
-
+		
+		quantidadeField.textProperty().addListener(new ChangeListener<String>() {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					quantidadeField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+			}
+		});
+		
 		showClienteDados(null);
 		
 		clienteComboBox.setCellFactory(clienteCell);
@@ -132,10 +144,20 @@ public class PedidoDialogController {
 			confirm = true;
 			dialogStage.close();
 		} else {
+			Alert alert = new Alert(AlertType.WARNING);
 			switch (invalidType) {
-			case 1:
-				
-				break;
+				case 1:
+					alert.setTitle("Campo vazio");
+					alert.setHeaderText("Não há produtos.");
+					alert.setContentText("Por favor, insira produtos para efetuar o pedido.");
+					alert.showAndWait();
+					break;
+				case 2:
+					alert.setTitle("Campo vazio");
+					alert.setHeaderText("Selecione um cliente.");
+					alert.setContentText("Por favor, selecione um cliente.");
+					alert.showAndWait();
+					break;
 			default:
 				break;
 			}
@@ -165,6 +187,13 @@ public class PedidoDialogController {
 	}
 
 	private boolean isValid() {
+		if (this.itens.isEmpty()) {
+			invalidType = 1;
+			return false;
+		} else if (this.clienteComboBox.getSelectionModel().isEmpty()) {
+			invalidType = 2;
+			return false;
+		}
 		return true;
 	}
 	

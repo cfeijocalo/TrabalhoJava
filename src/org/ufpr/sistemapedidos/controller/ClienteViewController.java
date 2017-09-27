@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.ufpr.sistemapedidos.app.Main;
 import org.ufpr.sistemapedidos.dao.ClienteDAO;
+import org.ufpr.sistemapedidos.dao.PedidoDAO;
 import org.ufpr.sistemapedidos.model.Cliente;
 
 import javafx.collections.FXCollections;
@@ -135,21 +136,31 @@ public class ClienteViewController {
 
 	@FXML
 	private void removeCliente() {
-		Cliente cliente = clienteTable.getSelectionModel().getSelectedItem();
+		Cliente auxcliente = clienteTable.getSelectionModel().getSelectedItem();
 
-		if (cliente != null) {
+		if (auxcliente != null) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmar remoção");
 			alert.setHeaderText("Deseja remover o cliente: ");
-			alert.setContentText(cliente.getNome() + " " + cliente.getSobreNome());
+			alert.setContentText(auxcliente.getNome() + " " + auxcliente.getSobreNome());
 
 			//TODO tratar cliente com pedido.
 			if (alert.showAndWait().get().getButtonData() == ButtonData.OK_DONE) {
 				ClienteDAO cDao = new ClienteDAO();
+				PedidoDAO pDao = new PedidoDAO();
 				try {
-					if (cDao.delete(cliente)) {
-						buscaClientes();
-					}
+					if (pDao.selectAll("WHERE id_cliente = " + auxcliente.getId()).isEmpty()) {
+						if (cDao.delete(auxcliente)) {
+							buscaClientes();
+						}
+					} else {
+						Alert alert2 = new Alert(AlertType.ERROR);
+						alert2.setTitle("Erro Delete");
+						alert2.setHeaderText("Cliente já possui pedidos");
+						alert2.setContentText("Para deletar este cliente é necessário deletar TODOS seus pedidos primeiro.");
+
+						alert2.showAndWait();
+					}	
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

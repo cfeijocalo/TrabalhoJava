@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.ufpr.sistemapedidos.app.Main;
+import org.ufpr.sistemapedidos.dao.ItemDoPedidoDAO;
 import org.ufpr.sistemapedidos.dao.ProdutoDAO;
 import org.ufpr.sistemapedidos.model.Produto;
 
@@ -123,9 +124,19 @@ public class ProdutoViewController {
 			
 			if (alert.showAndWait().get().getButtonData() == ButtonData.OK_DONE) {
 				ProdutoDAO pDao = new ProdutoDAO();
+				ItemDoPedidoDAO iDao = new ItemDoPedidoDAO();
 				try {
-					if (pDao.delete(auxProduto)) {
-						buscaProdutos();
+					if (iDao.selectAll("WHERE id_produto = " + auxProduto.getId()).isEmpty()) {
+						if (pDao.delete(auxProduto)) {
+							buscaProdutos();
+						}
+					} else {
+						Alert alert2 = new Alert(AlertType.ERROR);
+						alert2.setTitle("Erro Delete");
+						alert2.setHeaderText("Pedidos com este produto.");
+						alert2.setContentText("Para deletar este produto é necessário remove-lo de TODOS os pedidos primeiro.");
+
+						alert2.showAndWait();
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();

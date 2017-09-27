@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import org.ufpr.sistemapedidos.dao.ClienteDAO;
 import org.ufpr.sistemapedidos.model.Cliente;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -40,6 +42,14 @@ public class ClienteDialogController {
 		
 		sobreNomeField.textProperty().addListener((ov, oldValue, newValue) -> {
 		     sobreNomeField.setText(newValue.toUpperCase());
+		});
+		
+		cpfField.textProperty().addListener(new ChangeListener<String>() {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					cpfField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+			}
 		});
 	}
 
